@@ -1,0 +1,27 @@
+{
+    "name": "admin-test/admin-test",
+    "description": "admin-test/admin-test",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0",
+    "license": "MIT",
+    "require": {
+        "shopware/core": "~6.7.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "AdminTest\\AdminTest",
+        "label": {
+            "de-DE": "AdminTest",
+            "en-GB": "AdminTest"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "AdminTest\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AdminTest\\Tests\\": "tests/"
+        }
+    }
+}

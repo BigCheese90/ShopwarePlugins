@@ -1,0 +1,61 @@
+{
+  "_index-BgQCUm1l-BTtTkbhg.js": {
+    "file": "assets/index-BgQCUm1l-BTtTkbhg.js",
+    "name": "index-BgQCUm1l"
+  },
+  "main.js": {
+    "file": "assets/admin-test-BJa338of.js",
+    "name": "admin-test",
+    "src": "main.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "module/pricetest/page/pricetest-index/index.js",
+      "module/pricetest/page/pricetest-create/index.js",
+      "module/discount-tags/page/pricetest-index/index.js",
+      "module/discount-tags/page/pricetest-create/index.js",
+      "module/discount-tags/page/create-product-discount/index.js"
+    ],
+    "css": [
+      "assets/admin-test-D0lnsJaI.css"
+    ]
+  },
+  "module/discount-tags/page/create-product-discount/index.js": {
+    "file": "assets/index-ihUZHN8d.js",
+    "name": "index",
+    "src": "module/discount-tags/page/create-product-discount/index.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-BgQCUm1l-BTtTkbhg.js"
+    ]
+  },
+  "module/discount-tags/page/pricetest-create/index.js": {
+    "file": "assets/index-Dq4mym6B.js",
+    "name": "index",
+    "src": "module/discount-tags/page/pricetest-create/index.js",
+    "isDynamicEntry": true
+  },
+  "module/discount-tags/page/pricetest-index/index.js": {
+    "file": "assets/index-BGkzb9AG.js",
+    "name": "index",
+    "src": "module/discount-tags/page/pricetest-index/index.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-BgQCUm1l-BTtTkbhg.js"
+    ]
+  },
+  "module/pricetest/page/pricetest-create/index.js": {
+    "file": "assets/index-C5HZEuDe.js",
+    "name": "index",
+    "src": "module/pricetest/page/pricetest-create/index.js",
+    "isDynamicEntry": true
+  },
+  "module/pricetest/page/pricetest-index/index.js": {
+    "file": "assets/index-D054aXu1.js",
+    "name": "index",
+    "src": "module/pricetest/page/pricetest-index/index.js",
+    "isDynamicEntry": true,
+    "css": [
+      "assets/index-D0GlfmGb.css"
+    ]
+  }
+}

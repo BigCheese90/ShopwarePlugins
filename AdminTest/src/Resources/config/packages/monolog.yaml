@@ -1,0 +1,9 @@
+monolog:
+  channels: ['my_admin_plugin_channel']
+
+  handlers:
+    myPluginLogHandler:
+      type: rotating_file
+      path: "%kernel.logs_dir%/my_plugin_%kernel.environment%.log"
+      level: debug
+      channels: [ "my_admin_plugin_channel"]

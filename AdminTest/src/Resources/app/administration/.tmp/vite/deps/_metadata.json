@@ -1,0 +1,40 @@
+{
+  "hash": "c8e6bb3e",
+  "configHash": "5d94e3a3",
+  "lockfileHash": "4d3c8fdd",
+  "browserHash": "ecff1d29",
+  "optimized": {
+    "vue": {
+      "src": "../../../../../../../../../../vendor/shopware/administration/Resources/app/administration/node_modules/.shopware-vite-plugin-vue-globals/vue.js",
+      "file": "vue.js",
+      "fileHash": "29cafd8d",
+      "needsInterop": true
+    },
+    "xlsx": {
+      "src": "../../../node_modules/xlsx/xlsx.mjs",
+      "file": "xlsx.js",
+      "fileHash": "3aa11779",
+      "needsInterop": false
+    },
+    "bootstrap-vue": {
+      "src": "../../../node_modules/bootstrap-vue/esm/index.js",
+      "file": "bootstrap-vue.js",
+      "fileHash": "e70996ce",
+      "needsInterop": false
+    },
+    "bootstrap-vue-next": {
+      "src": "../../../node_modules/bootstrap-vue-next/dist/bootstrap-vue-next.mjs",
+      "file": "bootstrap-vue-next.js",
+      "fileHash": "e220eb6e",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-MTX544UU": {
+      "file": "chunk-MTX544UU.js"
+    },
+    "chunk-EQCVQC35": {
+      "file": "chunk-EQCVQC35.js"
+    }
+  }
+}

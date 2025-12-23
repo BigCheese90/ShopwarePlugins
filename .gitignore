@@ -3,5 +3,5 @@
 !JakobShop/
 !JakobPlugin/
 !AdminTest/
-
+/node_modules/
 !.gitignore

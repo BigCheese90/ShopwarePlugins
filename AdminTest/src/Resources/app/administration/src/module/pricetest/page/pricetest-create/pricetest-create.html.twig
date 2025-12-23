@@ -1,0 +1,57 @@
+<sw-page>
+        <template #search-bar>
+                <sw-search-bar>
+                </sw-search-bar>
+        </template>
+        <template #smart-bar-header>
+                <h2>Add discount</h2>
+        </template>
+        <template #smart-bar-actions>
+                <sw-button
+                        variant="primary"
+                        @click="onSave">
+                        Save
+                </sw-button>
+        </template>
+        <template #content>
+
+                        <mt-card
+                                large="True"
+                                :title="$tc('adminTest.create.title')"
+
+                        >
+                                <sw-entity-single-select
+                                        v-model:value="discount.manufacturerId"
+                                        entity="product_manufacturer"
+                                        :placeholder="$tc('sw-product.basicForm.placeholderManufacturer')"
+                                        show-clearable-button
+                                        :label="$tc('adminTest.create.manufacturerLabel')"
+
+                                />
+                                <mt-number-field
+                                        :label="$tc('adminTest.create.discountLabel')"
+                                        v-model="discount.discount"
+                                        min="0"
+                                        max="2"
+                                        required="true"
+                                />
+
+                                <mt-text-field
+                                        :label="$tc('adminTest.create.basePriceLabel')"
+                                        v-model="discount.priceReference"
+                                />
+                                <mt-textarea
+                                        label="Kommentar"
+                                        v-model="discount.comment"
+                                />
+
+
+                        </mt-card>
+
+
+
+
+        </template>
+
+
+</sw-page>

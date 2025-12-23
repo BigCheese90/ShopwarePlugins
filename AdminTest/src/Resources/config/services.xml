@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="AdminTest\Command\ExampleCommand">
+            <tag name="console.command"/>
+            <argument type="service" id="producer_prices.repository"/>
+
+        </service>
+
+        <service id="AdminTest\ScheduledTask\ExampleTask">
+            <tag name="shopware.scheduled.task"/>
+        </service>
+
+        <service id="AdminTest\Subscriber\MySubscriber">
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="AdminTest\Storefront\Controller\ExampleController" public="true">
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="AdminTest\Core\Content\Example\SalesChannel\ExampleRoute">
+            <argument type="service" id="product.repository"/>
+        </service>
+
+        <service id="AdminTest\Core\Content\ProductList\ProductListDefinition">
+            <tag name="shopware.entity.definition" entity="product_list" />
+        </service>
+
+        <service id="AdminTest\Core\Content\ProductFeatures\ProductFeaturesDefinition">
+            <tag name="shopware.entity.definition" entity="product_features" />
+        </service>
+
+        <service id="AdminTest\Core\Content\ProducerPrices\ProducerPricesEntity">
+            <tag name="shopware.entity"/>
+        </service>
+
+        <service id="AdminTest\Core\Content\DiscountProducts\DiscountProductsEntity">
+            <tag name="shopware.entity"/>
+        </service>
+
+        <service id="AdminTest\Service\CustomFieldsInstaller">
+            <argument type="service" id="custom_field_set.repository"/>
+            <argument type="service" id="custom_field_set_relation.repository"/>
+        </service>
+
+        <service id="AdminTest\Service\CustomProductPriceCalculator" decorates="Shopware\Core\Content\Product\SalesChannel\Price\ProductPriceCalculator">
+            <argument type="service" id="AdminTest\Service\CustomProductPriceCalculator.inner" />
+            <argument type="service" id="producer_prices.repository"/>
+            <argument type="service" id="discount_products.repository"/>
+
+        </service>
+
+    </services>
+</container>

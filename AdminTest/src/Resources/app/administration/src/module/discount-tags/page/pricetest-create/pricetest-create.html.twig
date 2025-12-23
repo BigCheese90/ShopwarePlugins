@@ -1,0 +1,66 @@
+<sw-page>
+        <template #search-bar>
+                <sw-search-bar>
+                </sw-search-bar>
+        </template>
+        <template #smart-bar-header>
+                <h2 v-if="tagId">Discount für {{ tagName }}</h2>
+                <h2 v-else> Discount für alle Kunden</h2>
+        </template>
+        <template #smart-bar-actions>
+                <sw-button
+                        variant="primary"
+                        @click="onSave">
+                        Save
+                </sw-button>
+        </template>
+        <template #content>
+
+
+                        <mt-card
+                                large="True"
+                                :title="$tc('adminTest.create.title')"
+
+                        >
+                                <sw-entity-single-select
+                                        v-model:value="discount.manufacturerId"
+                                        entity="product_manufacturer"
+                                        :placeholder="$tc('sw-product.basicForm.placeholderManufacturer')"
+                                        show-clearable-button
+                                        :label="$tc('adminTest.create.manufacturerLabel')"
+
+                                />
+                                <mt-number-field
+                                        :label="$tc('adminTest.create.discountLabel')"
+                                        v-model="discount.discount"
+                                        min="0"
+                                        max="2"
+                                        required="true"
+                                        digits="3"
+                                />
+                                <sw-entity-single-select
+                                        v-model:value="priceReference"
+                                        entity="custom_field"
+                                        :criteria = "customFieldCriteria"
+                                        placeholder="auf welchen Preis soll der Rabatt angewendet werden?"
+                                        show-clearable-button
+                                        :label="$tc('adminTest.create.basePriceLabel')"
+                                />
+                            <p> ads{{ discount.priceReference }}</p>
+                            <p> {{ customFieldName }}</p>
+                            <p>priceReference {{ priceReference }}</p>
+                                <mt-textarea
+                                        label="Kommentar"
+                                        v-model="discount.comment"
+                                />
+
+
+                        </mt-card>
+
+
+
+
+        </template>
+
+
+</sw-page>

@@ -1,0 +1,31 @@
+{
+  "base": "/bundles/admintest/administration/",
+  "entryPoints": {
+    "admin-test": {
+      "css": [
+        "/bundles/admintest/administration/assets/admin-test-D0lnsJaI.css"
+      ],
+      "dynamic": [
+        "/bundles/admintest/administration/assets/index-D054aXu1.js",
+        "/bundles/admintest/administration/assets/index-C5HZEuDe.js",
+        "/bundles/admintest/administration/assets/index-BGkzb9AG.js",
+        "/bundles/admintest/administration/assets/index-Dq4mym6B.js",
+        "/bundles/admintest/administration/assets/index-ihUZHN8d.js"
+      ],
+      "js": [
+        "/bundles/admintest/administration/assets/admin-test-BJa338of.js"
+      ],
+      "legacy": false,
+      "preload": []
+    }
+  },
+  "legacy": false,
+  "metadatas": {},
+  "version": [
+    "7.1.0",
+    7,
+    1,
+    0
+  ],
+  "viteServer": null
+}
