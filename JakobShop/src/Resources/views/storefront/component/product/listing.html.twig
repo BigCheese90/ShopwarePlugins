@@ -1,0 +1,16 @@
+{% sw_extends "@Storefront/storefront/component/product/listing.html.twig" %}
+{% set listingColumns = 'col-sm-6 col-lg-4 col-xl-3' %}
+{% block element_product_listing_col %}
+
+    {% for product in searchResult %}
+        <div class=" p-0 m-0" role="listitem">
+            {% block element_product_listing_box %}
+                {% sw_include '@JakobShop/storefront/component/product/card/long_box.html.twig' with {
+                    layout: boxLayout,
+                    displayMode: displayMode
+                } %}
+            {% endblock %}
+        </div>
+    {% endfor %}
+
+{% endblock %}

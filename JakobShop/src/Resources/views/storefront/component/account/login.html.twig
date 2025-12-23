@@ -1,0 +1,13 @@
+{% sw_extends "@Storefront/storefront/component/account/login.html.twig" %}
+{% block component_account_login_form_mail %}
+    {% sw_include '@Storefront/storefront/component/form/form-input.html.twig' with {
+        type: 'email',
+        label: 'account.loginMailLabel'|trans|sw_sanitize,
+        id: 'loginMail',
+        name: 'username',
+        autocomplete: 'username webauthn',
+        error: loginError,
+        validationRules: 'required',
+        additionalClass: 'col-sm-6 col-lg-12',
+    } %}
+{% endblock %}

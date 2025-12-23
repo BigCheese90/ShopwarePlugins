@@ -1,0 +1,30 @@
+{% sw_extends "@Storefront/storefront/page/account/order-history/order-detail.html.twig" %}
+{% block page_account_order_item_detail_table_labels_summary  %}
+    {{ parent() }}
+{% block page_account_order_item_detail_tracking_code %}
+{% endblock %}
+    <div class="order-item-detail-footer row">
+        <dt >{{ 'account.orderItemTracking'|trans|sw_sanitize }}</dt>
+        {% set deliverycount = 1 %}
+        {% for delivery in order.deliveries %}
+            {% if delivery.customFields.deliveredContent %}
+                <dl class="col-6 col-md-5">
+                    <dt>{{ deliverycount }}. Lieferung</dt>
+                    <dd>
+                        <ol>
+                            {% for trackingCode in delivery.trackingCodes %}
+                                <dt>Tracking: {{ trackingCode }}</dt>
+                            {% endfor %}
+                        {% for articleNumber, quantity in delivery.customFields.deliveredContent %}
+                            <li>{{ articleNumber}}  {{ quantity }}x</li>
+                        {% endfor %}
+                        </ol>
+                    </dd>
+                    </dl>
+                {% set deliverycount = deliverycount +1 %}
+            {% endif %}
+        {% endfor %}
+    </div>
+    {{ dump(order) }}
+
+{% endblock %}

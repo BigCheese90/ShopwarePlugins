@@ -1,0 +1,172 @@
+{% sw_extends "@Storefront/storefront/component/buy-widget/buy-widget.html.twig" %}
+
+{% block buy_widget_ordernumber_container %}
+
+    {% block buy_widget_stock_container %}
+        <div class="product-detail-ordernumber-container">
+            {% block buy_widget_stock_label %}
+                <span style="font-size: 1.4em; width: 50%; display: inline-block;" class="product-detail-ordernumber-label">
+                        Bestand:
+                    </span>
+            {% endblock %}
+
+            {% block buy_widget_stock %}
+                <meta itemprop="productID"
+                      content="{{ product.stock }}">
+                <span style="font-size: 1.4em;" class="product-detail-ordernumber"
+                      itemprop="sku">
+                        {{ product.stock }} Stück
+                    </span>
+            {% endblock %}
+        </div>
+        <hr>
+    {% endblock %}
+
+    <div class="product-detail-ordernumber-container">
+        {% if product.productNumber %}
+            <div class="product-detail-container">
+                {% block buy_widget_ordernumber_label %}
+                    <span class="product-detail-ordernumber-label"
+                          style="width: 50%; display: inline-block;">
+                    {{ 'detail.productNumberLabel'|trans|sw_sanitize }}
+                </span>
+                {% endblock %}
+
+                {% block buy_widget_ordernumber %}
+                    <meta itemprop="productID"
+                          content="{{ product.id }}">
+                    <span class="product-detail-ordernumber"
+                          itemprop="sku">
+                    {{ product.productNumber }}
+                </span>
+                {% endblock %}
+            </div>
+        {% endif %}
+
+        {% if product.manufacturerNumber %}
+            <div class="product-detail-container">
+                {% block buy_widget_manufacturernumber_label %}
+                    <span class="product-detail-ordernumber-label"
+                          style="width: 50%; display: inline-block;">
+                Herstellerartikelnummer:
+            </span>
+                {% endblock %}
+
+                {% block buy_widget_manufacturernumber %}
+                    <meta itemprop="productID"
+                          content="{{ product.id }}">
+                    <span class="product-detail-ordernumber"
+                          itemprop="sku">
+                {{ product.manufacturerNumber }}
+            </span>
+                {% endblock %}
+            </div>
+        {% endif %}
+
+        {% if product.ean %}
+            <div class="product-detail-container">
+                {% block buy_widget_ean_label %}
+                    <span class="product-detail-ordernumber-label"
+                          style="width: 50%; display: inline-block;">
+                    EAN:
+                </span>
+                {% endblock %}
+
+                {% block buy_widget_ean %}
+                    <meta itemprop="productID"
+                          content="{{ product.id }}">
+                    <span class="product-detail-ordernumber"
+                          itemprop="sku">
+                    {{ product.ean }}
+                </span>
+                {% endblock %}
+            </div>
+        {% endif %}
+
+        {% if product.translated.customFields.custom_product_description_warranty %}
+            <div class="product-detail-container">
+                {% block buy_widget_warranty_label %}
+                    <span class="product-detail-ordernumber-label"
+                          style="width: 50%; display: inline-block;">
+                    Garantie:
+                </span>
+                {% endblock %}
+
+                {% block buy_widget_warranty %}
+                    <meta itemprop="productID"
+                          content="{{ product.id }}">
+                    <span class="product-detail-ordernumber"
+                          itemprop="sku">
+                    {{ product.translated.customFields.custom_product_description_warranty }} Monate
+                </span>
+                {% endblock %}
+            </div>
+        {% endif %}
+
+        {% if product.weight %}
+            <div class="product-detail-container">
+                {% block buy_widget_weight_label %}
+                    <span class="product-detail-ordernumber-label"
+                          style="width: 50%; display: inline-block;">
+                    Gewicht:
+                </span>
+                {% endblock %}
+
+                {% block buy_widget_weight %}
+                    <meta itemprop="productID"
+                          content="{{ product.id }}">
+                    <span class="product-detail-ordernumber"
+                          itemprop="sku">
+                    {{ product.weight }} kg
+                </span>
+                {% endblock %}
+            </div>
+        {% endif %}
+    </div>
+
+<div class="product-detail-ordernumber-container">
+
+    {% if product.translated.customFields.custom_product_description_man_url %}
+        <div class="product-detail-container">
+            {% block buy_widget_man_url_label %}
+                <span class="product-detail-ordernumber-label">
+                    Hersteller-URL:
+                </span>
+            {% endblock %}
+
+            {% block buy_widget_man_url %}
+                <meta itemprop="productID"
+                      content="{{ product.id }}">
+                <span class="product-detail-ordernumber-label"
+                      itemprop="sku">
+                    <a href="{{ product.translated.customFields.custom_product_description_man_url }}"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        {{ product.translated.customFields.custom_product_description_man_url }}</a>
+                </span>
+            {% endblock %}
+        </div>
+    {% endif %}
+
+    {% if product.translated.customFields.custom_product_description_datasheets %}
+        <hr>
+        {% set datasheets = product.translated.customFields.custom_product_description_datasheets|split(',') %}
+            {% for datasheet in datasheets %}
+                <div class="product-detail-container">
+                    {% block buy_widget_datasheets %}
+                        <meta itemprop="productID"
+                              content="{{ product.id }}">
+                        <span class="product-detail-ordernumber-label"
+                              itemprop="sku">
+                            <a href="{{ datasheet }}"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                Datenblatt {{ loop.index }}</a>
+                        </span>
+                    {% endblock %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
+

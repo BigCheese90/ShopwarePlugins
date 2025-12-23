@@ -1,0 +1,23 @@
+{% block manufacturer %}
+    {% if manufacturerMedia %}
+        <div class="row mt-2">
+            <div class="col border-black">
+                 {% sw_thumbnails 'my-thumbnails' with {
+                     media: manufacturerMedia,
+                     sizes: {
+                         'xs': '501px',
+                         'sm': '315px',
+                         'md': '427px',
+                         'lg': '333px',
+                         'xl': '284px',
+                     }} %}
+
+            </div>
+            <div class="col-9">
+                <h3>{{ manufacturerName }}</h3>
+                {{ manufacturerDescription }}
+            </div>
+        </div>
+
+    {% endif %}
+{% endblock %}

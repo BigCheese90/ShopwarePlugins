@@ -1,0 +1,93 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+
+        <service id="JakobPlugin\ScheduledTask\ExampleTask">
+            <tag name="shopware.scheduled.task"/>
+        </service>
+
+        <service id="JakobPlugin\Subscriber\MySubscriber">
+            <tag name="kernel.event_subscriber"/>
+            <argument type="service" id="monolog.logger.my_plugin_channel" />
+        </service>
+
+        <service id="JakobPlugin\Subscriber\PartialDeliverySubscriber">
+            <tag name="kernel.event_subscriber"/>
+            <argument type="service" id="monolog.logger.my_plugin_channel" />
+        </service>
+
+        <service id="JakobPlugin\Subscriber\DeliveryTimeInCartSubscriber">
+            <tag name="kernel.event_subscriber"/>
+            <argument type="service" id="monolog.logger.my_plugin_channel" />
+        </service>
+
+        <service id="JakobPlugin\Storefront\Controller\ExampleController" public="true">
+            <argument type="service" id="monolog.logger.my_plugin_channel" />
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+                <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService" />
+                <argument type="service" id="Shopware\Storefront\Page\Checkout\Cart\CheckoutCartPageLoader" />
+            </call>
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="JakobPlugin\Storefront\Controller\FakeCustomerLoginRoute" public="true">
+            <argument type="service" id="Shopware\Core\Checkout\Customer\SalesChannel\AccountService" />
+            <argument type="service" id="Symfony\Component\HttpFoundation\RequestStack" />
+            <argument type="service" id="Shopware\Core\Framework\RateLimiter\RateLimiter" />
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="JakobPlugin\Storefront\Controller\CheckoutOrderDecorator" decorates="Shopware\Core\Checkout\Cart\SalesChannel\CartOrderRoute" >
+            <argument type="service" id="JakobPlugin\Storefront\Controller\CheckoutOrderDecorator.inner" />
+            <argument type="service" id="monolog.logger.my_plugin_channel" />
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="Shopware\Core\Checkout\Customer\SalesChannel\AccountService"
+                 class="JakobPlugin\Storefront\Controller\LoginByCustomerNumberDecorator"
+                 autowire="true"
+                 autoconfigure="false"/>
+
+
+        <service id="JakobPlugin\Core\Content\Example\SalesChannel\ExampleRoute">
+            <argument type="service" id="product.repository"/>
+        </service>
+
+        <service id="JakobPlugin\Core\Content\Test\TestDefinition">
+            <tag name="shopware.entity.definition" entity="test" />
+        </service>
+
+        <service id="JakobPlugin\Service\CustomFieldsInstaller">
+            <argument type="service" id="custom_field_set.repository"/>
+            <argument type="service" id="custom_field_set_relation.repository"/>
+        </service>
+
+        <service id="JakobPlugin\Service\MentionApi">
+            <argument type="service" id="Symfony\Contracts\HttpClient\HttpClientInterface"/>
+        </service>
+        <service id="JakobPlugin\Service\OrderHelper">
+            <argument type="service" id="JakobPlugin\Service\MentionApi"/>
+            <argument type="service" id="order.repository"/>
+            <argument type="service" id="order_line_item.repository"/>
+            <argument type="service" id="order_delivery.repository"/>
+            <argument type="service" id="Shopware\Core\System\StateMachine\StateMachineRegistry" />
+            <argument type="service" id="product.repository"/>
+            <argument type="service" id="order_delivery_position.repository"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\Tax\TaxCalculator" />
+
+        </service>
+
+        <service id="JakobPlugin\Command\TestCommand">
+            <tag name="console.command"/>
+            <argument type="service" id="JakobPlugin\Service\MentionApi"/>
+            <argument type="service" id="JakobPlugin\Service\OrderHelper"/>
+
+        </service>
+    </services>
+</container>

@@ -1,0 +1,23 @@
+{
+  "base": "/bundles/jakobplugin/administration/",
+  "entryPoints": {
+    "jakob-plugin": {
+      "css": [],
+      "dynamic": [],
+      "js": [
+        "/bundles/jakobplugin/administration/assets/jakob-plugin-C8VrdH9h.js"
+      ],
+      "legacy": false,
+      "preload": []
+    }
+  },
+  "legacy": false,
+  "metadatas": {},
+  "version": [
+    "7.1.0",
+    7,
+    1,
+    0
+  ],
+  "viteServer": null
+}

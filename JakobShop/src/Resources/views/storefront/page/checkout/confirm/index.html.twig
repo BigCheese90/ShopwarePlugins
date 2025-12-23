@@ -1,0 +1,126 @@
+{% sw_extends "@Storefront/storefront/page/checkout/confirm/index.html.twig" %}
+{% block base_esi_header %}
+    {% sw_include '@Storefront/storefront/layout/header.html.twig' %}
+{% endblock %}
+{#{% block base_navigation %}
+    <div class="nav-main">
+        #}{# @deprecated tag:v6.7.0 - Block will be moved to storefront/layout/header.html.twig #}{#
+        {% block base_navigation_inner %}
+            {% sw_include '@Storefront/storefront/layout/navbar/navbar.html.twig' %}
+        {% endblock %}
+    </div>
+{% endblock %}#}
+
+{% block page_checkout_confirm_payment_shipping %}
+    <div class="confirm-payment-shipping">
+        <div class="row">
+            {% block page_checkout_confirm_payment %}
+                <div class="col-sm-6 confirm-payment">
+                    {% sw_include '@Storefront/storefront/page/checkout/confirm/confirm-payment.html.twig' %}
+                </div>
+            {% endblock %}
+
+            {% block page_checkout_confirm_shipping %}
+                {% set PHYSICAL_STATE = constant('Shopware\\Core\\Content\\Product\\State::IS_PHYSICAL') %}
+                {% if page.cart.lineItems.hasLineItemWithState(PHYSICAL_STATE) %}
+                    <div class="col-sm-6 confirm-shipping">
+                        {% sw_include '@Storefront/storefront/page/checkout/confirm/confirm-shipping.html.twig' %}
+                    </div>
+                {% endif %}
+            {% endblock %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block page_checkout_confirm_product_table %}
+    {% set deliverable = 1 %}
+    {{ parent() }}
+    {% for lineItem in page.cart.lineItems %}
+        {% if lineItem.quantity >= lineItem.payload.stock %}
+            {% set deliverable = 0 %}
+        {% endif %}
+    {% endfor %}
+    {% if deliverable == 0 %}
+    Ware teilweise nicht lagernd, wünschen Sie eine Teillieferung?
+    {% endif %}
+
+    {{ dump(page.cart) }}
+    <div class="form-check">
+        {% if page.cart.extensions.Teillieferung.partialDelivery %}
+            <form method="post", action="/checkout/cart/partial-delivery-off">
+                <input type="hidden" name="partialDelivery" value="1" />
+                <input type="checkbox" class="checkout-confirm-tos-checkbox form-check-input" id="partialDelivery"
+                       name="partialDelivery" value="partialDelivery" onchange="this.form.submit()"
+                       checked>
+                <label for="vehicle1">Teillieferung</label><br>
+            </form>
+        {% else %}
+            <form method="post", action="/checkout/cart/partial-delivery-on">
+                <input type="hidden" name="partialDelivery" value="1" />
+                <input type="checkbox" class="checkout-confirm-tos-checkbox form-check-input" id="partialDelivery" name="partialDelivery" value="partialDelivery" onchange="this.form.submit()"
+                >
+                <label for="partialDelivery">Teillieferung</label><br>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block page_checkout_additional %}
+    {% if config('core.cart.showCustomerComment') %}
+        <div class="checkout-additional">
+            {% block page_checkout_finish_customer_comment %}
+                <div class="card checkout-card">
+                    <div class="card-body">
+                        {% block page_checkout_confirm_customer_comment_header %}
+                            <div class="card-title">
+                                {{ 'checkout.customerCommentHeader'|trans|sw_sanitize }}
+                            </div>
+                        {% endblock %}
+
+                        {% block page_checkout_confirm_order_reference_control %}
+                            <div class="checkout-customer-comment-control">
+                                {% block page_checkout_confirm_customer_order_reference_textfield_label %}
+                                    <label class="form-label" for="order_reference">
+                                        Referenztext
+                                    </label>
+                                {% endblock %}
+
+                                {% block page_checkout_confirm_customer_order_reference_textfield %}
+                                    <textarea class="form-control"
+                                              placeholder="Projekt/Bestellnummer, scheint auf Lieferschein/Rechnung auf"
+                                              form="confirmOrderForm"
+                                              name="order_reference"></textarea>
+                                    <br>
+                                {% endblock %}
+                            </div>
+                        {% endblock %}
+
+                        {% block page_checkout_confirm_customer_comment_control %}
+                            <div class="checkout-customer-comment-control">
+                                {% block page_checkout_confirm_customer_comment_control_textfield_label %}
+                                    <label class="form-label" for="{{ constant('Shopware\\Core\\Checkout\\Order\\SalesChannel\\OrderService::CUSTOMER_COMMENT_KEY') }}">
+                                        {{ 'checkout.customerCommentLabel'|trans|sw_sanitize }}
+                                    </label>
+                                {% endblock %}
+
+                                {% block page_checkout_confirm_customer_comment_control_textfield %}
+                                    <textarea class="form-control"
+                                              placeholder="{{ 'checkout.customerCommentPlaceholder'|trans|sw_sanitize }}"
+                                              id="{{ constant('Shopware\\Core\\Checkout\\Order\\SalesChannel\\OrderService::CUSTOMER_COMMENT_KEY') }}"
+                                              form="confirmOrderForm"
+                                              name="{{ constant('Shopware\\Core\\Checkout\\Order\\SalesChannel\\OrderService::CUSTOMER_COMMENT_KEY') }}"></textarea>
+
+                                {% endblock %}
+                            </div>
+                        {% endblock %}
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block page_checkout_aside_actions %}
+    {{ parent() }}
+{% endblock %}

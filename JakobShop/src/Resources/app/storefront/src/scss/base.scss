@@ -1,0 +1,81 @@
+.main-product-category-text {
+  background-color: #f7fafc;
+  border-radius: .25em;
+  color: #454858;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+.main-product-sub-category-text {
+
+  color: #454858;
+  padding-top: .5rem;
+
+}
+
+.product-description-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+
+}
+.product-description-table th {
+  width: 100%;
+  color: #718096;
+  float: left;
+}
+.product-description-table td {
+  width: 70%;
+
+}
+
+.category-navigation-link.is-active {
+  font-weight: 700;
+}
+.category-navigation-link:hover {
+  text-decoration: underline;
+}
+.header-main {
+  background-image: url("#{$sw-asset-public-url}/bundles/jakobshop/img/header_bg_blue.jpg");
+}
+
+.main-navigation-link-text {
+  color:black;
+  margin:auto;
+}
+.main-navigation-link:hover {
+  background-color: #03fcad;
+}
+.main-navigation-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0px;
+}
+
+.navigation-flyouts {
+  position: absolute;
+  z-index: 750;
+  height: 0;
+  width: 70%;
+}
+
+.navigation-flyout {
+  box-shadow: 0 43px 43px -6px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  pointer-events: none;
+  position: absolute;
+  display: none;
+  height: 0;
+}
+.cms-page {
+  background-color: white;
+}
+
+.line-item-delivery-comingSoon {
+  font-size: $font-size-sm;
+  color: #E4D00A;
+}
+.line-item-delivery-notInStock {
+  font-size: $font-size-sm;
+  color: red;
+}

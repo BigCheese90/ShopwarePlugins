@@ -1,0 +1,27 @@
+{
+    "name": "jakob-shop/jakob-shop",
+    "description": "jakob-shop/jakob-shop",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0",
+    "license": "MIT",
+    "require": {
+        "shopware/core": "~6.7.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "JakobShop\\JakobShop",
+        "label": {
+            "de-DE": "JakobTheme",
+            "en-GB": "JakobTheme"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "JakobShop\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JakobShop\\Tests\\": "tests/"
+        }
+    }
+}

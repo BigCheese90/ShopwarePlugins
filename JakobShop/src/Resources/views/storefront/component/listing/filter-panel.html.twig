@@ -1,0 +1,12 @@
+{% sw_extends '@Storefront/storefront/component/listing/filter-panel.html.twig' %}
+
+{% block component_filter_panel_item_manufacturer %}
+    {# isInStockFilter #}
+    {{ parent() }}
+    <div class="filter-wrapper">
+        {% sw_include '@Storefront/storefront/component/listing/filter/filter-boolean.html.twig' with {
+            name: 'is-in-stock',
+            displayName: "listing.isInStockFilter"|trans|striptags
+        } %}
+    </div>
+{% endblock %}

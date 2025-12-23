@@ -1,0 +1,22 @@
+{% sw_extends '@Storefront/storefront/base.html.twig' %}
+
+{% block base_main_inner %}
+    <h1 class="text-center"> Unsere Partner </h1>
+    {% set manufacturerMediaIds = [] %}
+    {% for manufacturer in manufacturers.elements %}
+        {% set manufacturerMediaIds = manufacturerMediaIds| merge([manufacturer.mediaId]) %}
+    {% endfor %}
+    {% set mediaCollection = searchMedia(manufacturerMediaIds, context.context) %}
+    {% for manufacturer in manufacturers.elements %}
+        <div class="container">
+        {% sw_include '@JakobShop/storefront/component/manufacturer/listing.html.twig' with {
+            manufacturerId: manufacturer.id,
+            manufacturerName: manufacturer.translated.name,
+            manufacturerDescription: manufacturer.translated.description,
+            manufacturerMedia: mediaCollection.elements[manufacturer.mediaId]
+        } %}
+        </div>
+
+    {% endfor %}
+
+{% endblock %}

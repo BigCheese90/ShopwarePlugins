@@ -1,0 +1,12 @@
+{% block flydown %}
+    <div class="main-navigation-wrapper bg-primary">
+
+{% for item in navigationTree.children %}
+        {% set category = item.category %}
+        <a href="{{ category_url(category) }}">
+    <div class="btn btn-sm btn-primary text-white">{{ item.category.translated.name }}</div>
+        </a>
+
+{% endfor %}
+    </div>
+{% endblock %}

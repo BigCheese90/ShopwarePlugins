@@ -1,0 +1,59 @@
+{% block base_html %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .test:hover {background-color: #ddd;}
+        .dropdown:hover .dropbtn {background-color: #3e8e41;}
+        .testtest {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+    </style>
+
+{% endblock %}
+
+
+{% block layout_navigation_categories_list %}
+    {% if not level %}
+        {% set level = 0 %}
+    {% endif %}
+    {% set navigationMaxDepth = context.salesChannel.navigationCategoryDepth %}
+
+{% for item in navigationTree %}
+    {% if item.category.id is same as activeResult.parentId %}
+        <div class="scroll-box">
+        <ul class="list-group">
+        {% for subitem in item.children %}
+            <li class="category-navigation-entry">
+                <a class="category-navigation-link{% if subitem.category.id is same as(activeResult.id) %} is-active{% endif %}{% if subitem.category.id in activeResult.path %} in-path{% endif %}"
+                   href="{{ category_url(subitem.category) }}">{{ subitem.category.translated.name }}</a>
+            </li>
+            {% if subitem.category.id is same as(activeResult.id) %}
+                <ul class="category-navigation level-1">
+                {% for subsubitem in subitem.children %}
+                    <li class="category-navigation-entry">
+                        <a class="category-navigation-link" href="{{ category_url(subsubitem.category) }}">{{ subsubitem.category.translated.name }}</a>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+
+        {% endfor %}
+        </ul>
+        </div>
+    {% else %}
+        {% block layout_navigation_categories_recoursion %}
+            {% if level < navigationMaxDepth %}
+                {% sw_include '@Storefront/storefront/layout/sidebar/category-navigation.html.twig' with {
+                    navigationTree: item.children,
+                    activeResult: activeResult,
+                    level: level + 1
+                } only %}
+            {% endif %}
+        {% endblock %}
+    {% endif %}
+{% endfor %}
+
+{% endblock %}

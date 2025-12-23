@@ -1,0 +1,4 @@
+{% sw_extends '@Storefront/storefront/utilities/offcanvas.html.twig' %}
+{% block utilities_offcanvas_content %}
+    {{ product.translated.customFields.custom_product_description_technical_data | raw }}
+{% endblock %}

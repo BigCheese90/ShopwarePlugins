@@ -1,0 +1,19 @@
+{% block navbar_overview %}
+    <style>
+        .multi-column-list {
+            column-count: 4; /* Number of columns */
+        }
+    </style>
+    <div class="list-group bg-primary">
+    <ul class="multi-column-list bg-primary ">
+        {% for treeItem in navigationTree.children %}
+            {% set category = treeItem.category %}
+            <a href="{{ category_url(category) }}">
+            <button class="btn-sm list-group-item list-group-item-action list-group-flush bg-primary border-0">{{ treeItem.category.translated.name }}</button>
+            </a>
+        {% endfor %}
+
+    </ul>
+    </div>
+
+{% endblock %}

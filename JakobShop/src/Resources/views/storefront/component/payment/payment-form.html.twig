@@ -1,0 +1,11 @@
+{% block component_payment_form_list %}
+    <div class="payment-methods">
+        {% for payment in page.paymentMethods %}
+            {% if payment == context.paymentMethod %}
+            {% block component_payment_form_method %}
+                {% sw_include '@Storefront/storefront/component/payment/payment-method.html.twig' %}
+            {% endblock %}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% sw_extends "@Storefront/storefront/component/account/register.html.twig" %}
+{% block component_account_register_header %}
+    {% if cardTitle %}
+        <h2 class="card-title">
+            {{ cardTitle }}
+        </h2>
+    {% endif %}
+{% endblock %}
+{% block component_account_register_form %}
+    <p>Damit Sie Zugriff auf unsere Fachhandelspreisliste und unseren Onlineshop bekommen, sollten Sie:</p>
+    <p><b>Reseller/Wiederverkäufer</b> sein</p>
+    <p>Für weitere Fragen kontaktieren Sie uns bitte unter:</p>
+
+    <p>Email: office@allnet.at<br>Telefon: +43 4242 / 22137
+    </p>
+    <a href="https://www.allnet.at/register-as-var.html"><button class="btn btn-group bg-primary">Partner werden</button></a>
+{% endblock %}

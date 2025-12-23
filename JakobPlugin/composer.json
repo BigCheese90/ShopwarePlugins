@@ -1,0 +1,27 @@
+{
+    "name": "jakob-plugin/jakob-plugin",
+    "description": "jakob-plugin/jakob-plugin",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0",
+    "license": "MIT",
+    "require": {
+        "shopware/core": "~6.7.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "JakobPlugin\\JakobPlugin",
+        "label": {
+            "de-DE": "Jakob Plugin",
+            "en-GB": "Jakob Plugin"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "JakobPlugin\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JakobPlugin\\Tests\\": "tests/"
+        }
+    }
+}

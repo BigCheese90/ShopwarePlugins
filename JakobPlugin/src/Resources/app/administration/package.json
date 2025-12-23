@@ -1,0 +1,17 @@
+{
+  "name": "administration",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "husky": "^9.1.7"
+  },
+  "dependencies": {
+    "@shopware-ag/meteor-admin-sdk": "^6.0.1"
+  }
+}

@@ -1,0 +1,11 @@
+{% sw_extends "@Storefront/storefront/component/line-item/type/product.html.twig" %}
+{% block component_line_item_type_product_inner %}
+    {{ parent() }}
+    {% if lineItem.customFields.serials %}
+        Serials :
+        {% for serial in lineItem.customFields.serials %}
+        {{ serial }}
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}

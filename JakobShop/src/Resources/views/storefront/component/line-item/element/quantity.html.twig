@@ -1,0 +1,23 @@
+{% sw_extends '@Storefront/storefront/component/line-item/element/quantity.html.twig' %}
+{% block component_line_item_quantity_display %}
+    <div class="d-flex justify-content-sm-center justify-content-end">
+        {{ lineItem.quantity }} ({{ lineItem.customFields["delivered"] }})
+    </div>
+    {% if lineItem.customFields.delivered >= lineItem.quantity %}
+        <div class="d-flex justify-content-sm-center justify-content-end text-success">
+            <p> {% sw_icon 'checkmark' style { 'size': 'xs', 'color': 'success' } %} geliefert </p>
+        </div>
+    {% elseif lineItem.customFields.openOrderInformation.inStock >= (lineItem.quantity-lineItem.customFields.delivered) %}
+    <div class="d-flex justify-content-sm-center justify-content-end text-success">
+        <p> {% sw_icon 'bag' style { 'size': 'xs', 'color': 'success' } %} lagernd </p>
+    </div>
+    {% elseif lineItem.customFields.openOrderInformation.expected %}
+        <div class="d-flex justify-content-sm-center justify-content-end text-warning">
+            <p> {% sw_icon 'calendar' style { 'size': 'xs', 'color': 'warning' } %}{{ lineItem.customFields.openOrderInformation.expected |date("Y-m-d") }}</p>
+        </div>
+    {% elseif lineItem.customFields.openOrderInformation.backlog>0 %}
+        <div class="d-flex justify-content-sm-center justify-content-end text-warning">
+            <p> Kein Lieferdatum </p>
+        </div>
+    {% endif %}
+{% endblock %}

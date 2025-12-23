@@ -1,0 +1,15 @@
+{
+  "hash": "7066a5fc",
+  "configHash": "707a2152",
+  "lockfileHash": "54f675d9",
+  "browserHash": "b72b0852",
+  "optimized": {
+    "@shopware-ag/meteor-admin-sdk": {
+      "src": "../../../node_modules/@shopware-ag/meteor-admin-sdk/es/index.js",
+      "file": "@shopware-ag_meteor-admin-sdk.js",
+      "fileHash": "4ec44882",
+      "needsInterop": false
+    }
+  },
+  "chunks": {}
+}

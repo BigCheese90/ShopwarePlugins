@@ -1,0 +1,84 @@
+{% block listing_container %}
+    <style>
+        .product-listing-info {
+
+            font-size: 0.8em;
+            margin-bottom: 0.1em;
+            margin-top: 0.1em;
+        }
+        .product-listing-row-container:hover {
+            box-shadow: 0 0 10px #999;
+        }
+        .price-field {
+            bottom: 40px;
+            position: relative;
+        }
+        .product-image-wrapper2 {
+            height: 100px;
+/*            flex-grow: 0;
+            flex-shrink: 1;
+            flex-basis: 180px;
+            margin-bottom: 15px;
+            position: relative;*/
+        }
+    </style>
+    {% set displayMode = "standard" %}
+    {% set attributes = {
+        class: 'product-image is-' ~ displayMode,
+        title: (cover.translated.title ?: name),
+
+    } %}
+    {% if product %}
+    {% set name = product.translated.name %}
+    {% set cover = product.cover.media %}
+    {% set sizes = {
+        xs: '400px',
+        sm: '280px',
+        md: '350px',
+        lg: '300px',
+        xl: '200px'
+    } %}
+
+    <div class="row product-listing-row-container border border-light m-1 ">
+        <div class="product-image-wrapper2 col-2">
+            <a href="{{ seoUrl('frontend.detail.page', { productId: product.id }) }}"
+               title="{{ name }}">
+            {% if cover.url %}
+                {% sw_thumbnails 'product-image-thumbnails' with {
+                    media: cover,
+                    size: "fluid",
+                    attributes: attributes
+                } %}
+
+            {% else %}
+                    {% sw_icon 'placeholder' style {
+                        size: 'fluid',
+                        ariaHidden: true
+                    } %}
+
+            {% endif %}
+            </a>
+        </div>
+        <div class="col-4">
+            <a href="{{ seoUrl('frontend.detail.page', { productId: product.id }) }}"
+               title="{{ name }}">
+                <span class="h6">{{ name }}</span>
+            </a>
+            <div class="product-description">
+                    {{ product.translated.description|striptags|raw }}
+            </div>
+        </div>
+        <div class="col-3 d-flex flex-column">
+            <p class="product-listing-info">Artikelnummer: {{ product.productNumber }}</p>
+            <p class="product-listing-info">Herstellernummer: {{ product.manufacturerNumber }} </p>
+            <p class="product-listing-info">Hersteller: {{ product.manufacturer.translated.name }}</p>
+            <h3 class="mt-auto">{{ product.calculatedPrice.Unitprice|currency }}</h3>
+        </div>
+
+        <div class="col-3 d-flex flex-column justify-content-end">
+            <h5>Bestand: {{ product.stock }}</h5>
+            {% sw_include '@JakobShop/storefront/component/buy-widget/buy-widget-form-jakob.html.twig' %}
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
