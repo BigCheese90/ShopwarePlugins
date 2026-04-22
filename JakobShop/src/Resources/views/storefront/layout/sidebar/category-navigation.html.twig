@@ -20,7 +20,7 @@
         {% set level = 0 %}
     {% endif %}
     {% set navigationMaxDepth = context.salesChannel.navigationCategoryDepth %}
-
+{{ dump(navigationTree) }}
 {% for item in navigationTree %}
     {% if item.category.id is same as activeResult.parentId %}
         <div class="scroll-box">

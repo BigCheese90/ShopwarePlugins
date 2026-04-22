@@ -1,6 +1,7 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace AdminTest\Core\Content\ProducerPrices;
+namespace AdminTest\Core\Content\DiscountProduct;
+
 
 use Shopware\Core\Framework\Api\Context\AdminApiSource;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
@@ -9,12 +10,14 @@ use Shopware\Core\Framework\DataAbstractionLayer\Attribute\FieldType;
 use Shopware\Core\Framework\DataAbstractionLayer\Attribute\PrimaryKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Attribute\ForeignKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Attribute\ManyToOne;
+use Shopware\Core\Framework\DataAbstractionLayer\Attribute\ReferenceVersion;
 use Shopware\Core\Framework\DataAbstractionLayer\Attribute\Entity as EntityAttribute;
-use Shopware\Core\Content\Product\Aggregate\ProductManufacturer\ProductManufacturerEntity;
+use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\System\Tag\TagEntity;
 
-#[EntityAttribute('producer_prices')]
-class ProducerPricesEntity extends Entity
+#sadasd
+#[EntityAttribute('discount_product')]
+class DiscountProductEntity extends Entity
 {
     #[PrimaryKey]
     #[Field(type: FieldType::UUID, api: [AdminApiSource::class])]
@@ -26,25 +29,34 @@ class ProducerPricesEntity extends Entity
     #[ManytoOne(entity: 'tag', api: [AdminApiSource::class])]
     public ?TagEntity $tag = null;
 
-    #[ForeignKey(entity: 'product_manufacturer', api: [AdminApiSource::class])]
-    public ?string $manufacturerId = null;
+    #[ForeignKey(entity: 'customer', api: [AdminApiSource::class])]
+    public ?string $customerId = null;
 
-    #[ManytoOne(entity: 'product_manufacturer', api: [AdminApiSource::class])]
-    public ?ProductManufacturerEntity $manufacturer = null;
-/*    #[Field(type: FieldType::STRING, api: [AdminApiSource::class])]
-    public string $manufacturer;*/
+    #[ManytoOne(entity: 'customer', api: [AdminApiSource::class])]
+    public ?TagEntity $customer = null;
+
+    #[ForeignKey(entity: 'product', api: [AdminApiSource::class])]
+    public ?string $productId = null;
+
+    #[ReferenceVersion(entity: 'product')]
+    public ?string $productVersionId = null;
+
+    #[ManytoOne(entity: 'product',  api: [AdminApiSource::class])]
+    public ?ProductEntity $product = null;
 
     #[Field(type: FieldType::FLOAT, api: [AdminApiSource::class])]
-    public float $discount;
+    public ?float $fixedPrice = null;
+
+    #[Field(type: FieldType::FLOAT, api: [AdminApiSource::class])]
+    public ?float $discount = null;
 
     #[Field(type: FieldType::STRING)]
     public ?string $priceReference= null;
 
     #[Field(type: FieldType::STRING)]
-    public ?string $comment= null;
+    public ?string $comment = null;
 
     #[Field(type: FieldType::STRING)]
-    public ?string $userName= null;
-
+    public ?string $userName = null;
 
 }

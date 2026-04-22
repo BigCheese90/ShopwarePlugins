@@ -1,7 +1,7 @@
 // Import admin module
 
-import './module/pricetest';
-import './module/discount-tags';
+//import './module/pricetest';
+import './module/discounts';
 
 
 import 'bootstrap/dist/css/bootstrap.css';

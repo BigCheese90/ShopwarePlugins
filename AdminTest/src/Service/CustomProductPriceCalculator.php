@@ -5,15 +5,15 @@ namespace AdminTest\Service;
 use Shopware\Core\Content\Product\SalesChannel\Price\AbstractProductPriceCalculator;
 use Shopware\Core\Content\Product\SalesChannel\SalesChannelProductEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\AndFilter;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\ContainsFilter;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\OrFilter;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\Filter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Struct\ArrayStruct;
-use function Symfony\Component\VarDumper\dump;
 class CustomProductPriceCalculator extends AbstractProductPriceCalculator
 {
     /**
@@ -23,14 +23,18 @@ class CustomProductPriceCalculator extends AbstractProductPriceCalculator
     private AbstractProductPriceCalculator $productPriceCalculator;
     private EntityRepository $manufacturerDiscountRepository;
     private EntityRepository $productDiscountRepository;
+    private EntityRepository $customFieldRepository;
 
     public function __construct(AbstractProductPriceCalculator $productPriceCalculator,
                                 EntityRepository $manufacturerDiscountRepository,
-                                EntityRepository $productDiscountRepository)
+                                EntityRepository $productDiscountRepository,
+                                EntityRepository $customFieldRepository
+    )
     {
         $this->productPriceCalculator = $productPriceCalculator;
         $this->manufacturerDiscountRepository = $manufacturerDiscountRepository;
         $this->productDiscountRepository = $productDiscountRepository;
+        $this->customFieldRepository = $customFieldRepository;
     }
 
     public function getDecorated(): AbstractProductPriceCalculator
@@ -49,6 +53,15 @@ class CustomProductPriceCalculator extends AbstractProductPriceCalculator
         $tags = $customer->getTagIds();
         if ($tags === null) {
             $tags = [];
+        }
+        $criteria = new Criteria;
+        $criteria->addFilter(
+            new ContainsFilter("name", "custom_product_pricing_")
+        );
+        $customPriceFields = $this->customFieldRepository->search($criteria, $context->getContext());
+        $customPriceArray = [];
+        foreach ($customPriceFields as $customPriceField) {
+            $customPriceArray[$customPriceField->getId()] = $customPriceField->getName();
         }
         /*$tags[] = null;*/
 
@@ -69,12 +82,13 @@ class CustomProductPriceCalculator extends AbstractProductPriceCalculator
         $criteria = new Criteria();
         $criteria->addFilter(new Orfilter([
             new EqualsAnyFilter('tagId', $tags),
-            new EqualsFilter('tagId', null)
+            new AndFilter([new EqualsFilter('tagId', null), new EqualsFilter('customerId', null)])
+
     ]));
         $discount_manufacturer_entity = $this->manufacturerDiscountRepository->search($criteria, Context::createDefaultContext())->getEntities();
         $discount_manufacturers = [];
         foreach ($discount_manufacturer_entity as $discount) {
-            $discount_manufacturers[] = [$discount->get("manufacturerId"), $discount->get("discount"), $discount->get("priceReference")];
+            $discount_manufacturers[] = [$discount->get("manufacturerId"), $discount->get("discount"), $discount->get("priceReferenceId")];
         }
         /** @var SalesChannelProductEntity $product */
         foreach ($products as $product) {
@@ -95,11 +109,15 @@ class CustomProductPriceCalculator extends AbstractProductPriceCalculator
             $manufacturerId = $product->getManufacturerId();
             foreach ($discount_manufacturers as $discount) {
                 if ($discount[0] == $manufacturerId) {
-                  
                     $price = $product->getPrice();
+                    if ($discount[2] != null) {
+                        $referencePriceName = $customPriceArray[$discount[2]];
+                    }
 
-                    if ($discount[2] !== null and $product->getTranslatedCustomFieldsValue($discount[2]) !== null) {
-                        $new_price = $product->getTranslatedCustomFieldsValue($discount[2])->first()->getNet() * $discount[1];
+                    if ($discount[2] !== null and $product->getTranslatedCustomFieldsValue($referencePriceName) !== null) {
+
+
+                        $new_price = $product->getTranslatedCustomFieldsValue($referencePriceName)->first()->getNet() * $discount[1];
                         $price->first()->setNet($new_price);
 
 

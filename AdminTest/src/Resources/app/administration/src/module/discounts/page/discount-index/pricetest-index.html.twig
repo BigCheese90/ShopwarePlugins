@@ -1,0 +1,138 @@
+<sw-page>
+
+        <template #search-bar>
+                <sw-search-bar>
+                </sw-search-bar>
+        </template>
+        <template #smart-bar-header>
+
+                <h2>Rabatte</h2>
+
+        </template>
+        <template #smart-bar-actions>
+{#                <sw-button#}
+{#                        variant="primary"#}
+{#                        @click="$router.push({ name: 'admintest.discount.tags.create', params: { tagId: tagId} })">#}
+{#                        Add#}
+{#                </sw-button>#}
+        </template>
+
+
+
+<!--        <template #sidebar >
+
+
+
+                <mt-tabs  :items="tabItems" vertical="True">
+                </mt-tabs>
+        </template>-->
+
+        <template #content>
+            <div style="margin:10px">
+                <mt-tabs
+                        @new-item-active="discountCategoryActive"
+                        :items="categoryTabs"
+                        positionIdentifier="category-tabs"
+                        defaultItem="allCustomers"
+                >
+                </mt-tabs>
+                <sw-entity-single-select
+                        v-if="discountCategoryTab === 'tags'"
+                        v-model:value="tagId"
+                        entity="tag"
+{#                        labelCallback="tagLabel"#}
+                        placeholder="Hier den gewünschten Tag eingeben"
+                        show-clearable-button
+
+                />
+                <sw-entity-single-select
+                        v-if="discountCategoryTab === 'singleCustomer'"
+                        v-model:value="customerId"
+                        :criteria = "customerCriteria"
+                        entity="customer"
+                        labelProperty="defaultBillingAddress.company"
+                        :labelCallback="customerLabelCallback"
+                        placeholder="Hier den gewünschten Kunden eingeben"
+                        show-clearable-button
+                />
+                <mt-tabs
+                        @new-item-active="handleItemActive"
+                        :items="tabItems"
+                        positionIdentifier="discount-tabs"
+                        defaultItem="manufacturerDiscounts"
+                        >
+                </mt-tabs>
+
+            <div v-if="activeTab === 'manufacturerDiscounts'">
+                <sw-button
+                        variant="primary"
+                        @click="$router.push({ name: 'admintest.discounts.createManufacturerDiscount'})">
+                    Add
+                </sw-button>
+                <sw-entity-listing
+                        v-if="discountCategoryTab === 'allCustomers'"
+                        :items="allManufacturerDiscounts"
+                        :columns="columns"
+                        :repository="manufacturerdiscountRepository" />
+                <sw-entity-listing
+                        v-if="discountCategoryTab === 'tags'"
+                        :items="tagManufacturerDiscounts"
+                        :columns="columns"
+                        :repository="manufacturerdiscountRepository" />
+                <sw-entity-listing
+                        v-if="discountCategoryTab === 'singleCustomer'"
+                        :items="customerManufacturerDiscounts"
+                        :columns="columns"
+                        :repository="manufacturerdiscountRepository" />
+                </div>
+            <div v-if="activeTab === 'productDiscounts'">
+                <sw-button
+                        v-if="tagId"
+                        variant="primary"
+                        @click="$router.push({ name: 'admintest.discounts.createProductDiscount', params: { tagId: tagId} })">
+                    Add
+                </sw-button>
+                <sw-button
+                        v-if="!tagId"
+                        variant="primary"
+                        @click="$router.push({ name: 'admintest.discounts.createProductDiscount', params: { tagId: tagId} })">
+                    AddnoDiscount
+                </sw-button>
+                <sw-entity-listing
+                        v-if="discountCategoryTab === 'tags'"
+                        :items="tagProductDiscounts"
+                        :columns="productColumns"
+                        :repository="tagProductDiscounts"
+                >
+                        <!--                        @selection-change="updateSelection"-->>
+                </sw-entity-listing>
+                <sw-entity-listing
+                        v-if="discountCategoryTab === 'allCustomers'"
+                        :items="allProductDiscounts"
+                        :columns="productColumns"
+                        :repository="productDiscountRepository"
+                >
+                    <!--                        @selection-change="updateSelection"-->>
+                </sw-entity-listing>
+                <sw-entity-listing
+                        v-if="discountCategoryTab === 'singleCustomer'"
+                        :items="customerProductDiscounts"
+                        :columns="productColumns"
+                        :repository="productDiscountRepository"
+                >
+                    <!--                        @selection-change="updateSelection"-->>
+                </sw-entity-listing>
+                </div>
+            </div>
+        </template>
+
+</sw-page>
+
+
+
+
+
+
+
+
+

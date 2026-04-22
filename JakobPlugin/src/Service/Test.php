@@ -1,5 +1,7 @@
 <?php
-$codes = "asd";
-$array = $codes==="" ? [] : explode(", ", $codes);
-print_r($array);
+use Symfony\Component\BrowserKit\HttpBrowser;
+use Symfony\Component\HttpClient\HttpClient;
+
+
+
 

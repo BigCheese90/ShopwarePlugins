@@ -1,0 +1,112 @@
+<sw-page>
+        <template #search-bar>
+                <sw-search-bar>
+                </sw-search-bar>
+        </template>
+        <template #smart-bar-header>
+                <h2 v-if="tagId">Discount für {{ tagName }}</h2>
+                <h2 v-else> Discount für alle Kunden</h2>
+        </template>
+        <template #smart-bar-actions>
+                <sw-button
+                        variant="primary"
+                        @click="onSave">
+                        Save
+                </sw-button>
+        </template>
+        <template #content>
+            <mt-card small>
+                <mt-select label="Für wen ist der Discount?" :options="discountTargetList()" v-model="discountTarget" small required></mt-select>
+                <div v-if="discountTarget=='allCustomers'">allCustomers</div>
+                <div v-if="discountTarget=='tag'">
+                    <sw-entity-single-select
+                            v-model:value="tagId"
+                            entity="tag"
+                            {#                        labelCallback="tagLabel"#}
+                            placeholder="Hier den gewünschten Tag auswählen"
+                            show-clearable-button
+
+                    />
+                </div>
+                <div v-if="discountTarget=='customer'">
+                    <sw-entity-single-select
+                            v-model:value="customerId"
+                            entity="customer"
+                            :criteria="customerCriteria"
+                            placeholder="Hier den gewünschten Kunden auswählen"
+                            :labelProperty="customerLabelProperty()"
+                            show-clearable-button
+                    />
+                </div>
+            </mt-card>
+            <mt-card
+                    large="True"
+                    :title="$tc('adminTest.create.title')"
+            >
+                    <sw-entity-single-select
+                            v-model:value="discount.productId"
+                            entity="product"
+                            placeholder="Enter Article"
+                            show-clearable-button
+                            label="Artikel"
+                    />
+
+                    <mt-switch label="Switchfield"
+                               v-model="fixedPrice"
+
+                    />
+                    <p>modelValue: {{ fixedPrice }}</p>
+                    <mt-number-field
+                            v-if="!fixedPrice"
+                            :label="$tc('adminTest.create.discountLabel')"
+                            v-model="discount.discount"
+                            min="0"
+                            max="2"
+                            required="false"
+                    />
+                    <sw-entity-single-select
+                            v-if="!fixedPrice"
+                            v-model:value="priceReferenceId"
+                            entity="custom_field"
+                            :criteria = "customFieldCriteria"
+                            placeholder="auf welchen Preis soll der Rabatt angewendet werden?"
+                            show-clearable-button
+                            :label="$tc('adminTest.create.basePriceLabel')"
+                            labelProperty="config['label']['en-GB']"
+                    />
+                    <mt-number-field
+                            v-if="fixedPrice"
+                            label="FixPreis"
+                            v-model="discount.fixedPrice"
+                            min="0"
+                            required="false"
+                    />
+                <mt-textarea
+                            label="Kommentar"
+                            v-model="discount.comment"
+                    />
+
+
+            </mt-card>
+<sw-card title="Excel Upload">
+    <sw-file-input
+            accept=".xlsx,.csv"
+            v-model:value="excelFile"
+            @update:value="onUpload" />
+
+    <div v-if="fileUploaded === true">
+        <p>File Uploaded</p>
+        <BButton @click="this.uploadAllDiscounts">Upload Discounts</BButton>
+
+        <BTable :items="uploadRows"></BTable>
+
+    </div>
+</sw-card>
+
+
+
+
+        </template>
+
+
+</sw-page>

@@ -2,8 +2,11 @@
 
 namespace JakobPlugin\Command;
 
+use JakobPlugin\Service\DiscountService;
 use JakobPlugin\Service\MentionApi;
 use JakobPlugin\Service\OrderHelper;
+use JakobPlugin\Service\PriceImport;
+use Shopware\Core\Framework\DataAbstractionLayer\Pricing\Price;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,12 +22,17 @@ TestCommand extends Command
     // Provides a description, printed out in bin/console
     private MentionApi $api;
     private OrderHelper $orderHelper;
+    private DiscountService $discountService;
+    private PriceImport $priceImport;
 
 
-    public function __construct(MentionApi $api, OrderHelper $orderHelper)
+    public function __construct(MentionApi $api, OrderHelper $orderHelper,
+    DiscountService $discountService, PriceImport $priceImport)
     {
         $this->api = $api;
         $this->orderHelper = $orderHelper;
+        $this->discountService = $discountService;
+        $this->priceImport = $priceImport;
         parent::__construct();
 
     }
@@ -62,13 +70,13 @@ TestCommand extends Command
 //        $this->orderHelper->getOpenOrderInfo("80746239");
 //        $this->orderHelper->updateDeliveriesFromMention("80746239");
 //        $this->orderHelper->updateOrderStatus("80746239");
-        $this->orderHelper->updateAllOrders();
-       # print_r($this->api->getAllOpenOrders());
-        #print_r($this->api->get_german_data("80745617"));
-        #$this->orderHelper->updateOpenPositions("80745730");
-        #$this->orderHelper->updateDelivered("80745730");
-        #$this->orderHelper->updateDeliveriesFromMention("80745730");
-        #echo $this->orderHelper->orderStatus("80745730");
+//        $this->orderHelper->updateAllOrders();
+//        $this->api->getBackendPriceData();
+//        $discounts = $this->api->getBackendPriceHtml();
+//        $this->discountService->assignTags($discounts);
+        $this->priceImport->importProductPrice();
+       // $this->discountService->assignTagToCustomer("237853-at", "AXIS Gold");
+
         // Exit code 0 for success
         return 0;
     }

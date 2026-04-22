@@ -3,8 +3,10 @@
 namespace JakobPlugin\Service;
 
 
+use DOMDocument;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-
+use Symfony\Component\BrowserKit\HttpBrowser;
+use Symfony\Component\HttpClient\HttpClient;
 class MentionApi
 {
     private HttpClientInterface $client;
@@ -128,6 +130,79 @@ class MentionApi
         return $result;
     }
 
+    public function getBackendPriceData(): void
+    {
+        $browser = new HttpBrowser(HttpClient::create());
 
-}
+        $browser->request('POST', 'https://shop.allnet.at/backend/Login/login', [
+            'username' => 'jlassnig',
+            'password' => 'allnet123',
+        ]);
+        $response = $browser->getResponse();
+        echo $response->getStatusCode();
+        echo $browser->getResponse()->getContent();
+        $browser->request('POST', 'https://shop.allnet.at/backend/AtPriceCalc/articlefixprice', [
+            "download" => "1"
+        ]);
+        echo $response->getStatusCode();
+        echo $browser->getResponse()->getContent();
+
+
+    }
+    public function getBackendPriceHtml(): array
+    {
+        $browser = new HttpBrowser(HttpClient::create());
+
+        $browser->request('POST', 'https://shop.allnet.at/backend/Login/login', [
+            'username' => 'jlassnig',
+            'password' => 'allnet123',
+        ]);
+        $response = $browser->getResponse();
+        echo $response->getStatusCode();
+        echo $browser->getResponse()->getContent();
+        $browser->request('GET', 'https://shop.allnet.at/backend/AtPriceCalc');
+        echo $response->getStatusCode();
+        $html = $browser->getResponse()->getContent();
+        $doc = new DOMDocument();
+        libxml_use_internal_errors(true);
+        $doc->loadHTML($html);
+        $divs = $doc->getElementsByTagName("div");
+        $discounts = [];
+        foreach ($divs as $div) {
+            $singleEntry = [];
+            if ($div->getAttribute("class") == "row border-bottom") {
+
+                $inputs = $div->getElementsByTagName("input");
+                foreach ($inputs as $input) {
+                    if ($input->getAttribute("name") == "customer") {
+                        $customerNumber = $input->getAttribute("value");
+                       $singleEntry[] = $customerNumber;
+                    }
+                    echo " ";
+                    if ($input->getAttribute("name") == "modifier") {
+                        $discount = $input->getAttribute("value");
+                        $singleEntry[] = $discount;
+                    }
+                    echo " ";
+                }
+                $options = $div->getElementsByTagName("option");
+                foreach ($options as $option) {
+                    if ($option->hasAttribute("selected")) {
+                        $manufacturer = $option->nodeValue;
+                        $singleEntry[] = $manufacturer;
+                        echo " ";
+                    }
+                }
+                echo "\n";
+                $discounts[] = $singleEntry;
+            }
+        }
+        print_r($discounts);
+        return $discounts;
+    }
+
+
+};
+
+
 

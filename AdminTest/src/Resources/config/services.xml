@@ -8,7 +8,7 @@
 
         <service id="AdminTest\Command\ExampleCommand">
             <tag name="console.command"/>
-            <argument type="service" id="producer_prices.repository"/>
+            <argument type="service" id="discount_manufacturer.repository"/>
 
         </service>
 
@@ -38,11 +38,11 @@
             <tag name="shopware.entity.definition" entity="product_features" />
         </service>
 
-        <service id="AdminTest\Core\Content\ProducerPrices\ProducerPricesEntity">
+        <service id="AdminTest\Core\Content\DiscountManufacturer\DiscountManufacturerEntity">
             <tag name="shopware.entity"/>
         </service>
 
-        <service id="AdminTest\Core\Content\DiscountProducts\DiscountProductsEntity">
+        <service id="AdminTest\Core\Content\DiscountProduct\DiscountProductEntity">
             <tag name="shopware.entity"/>
         </service>
 
@@ -53,10 +53,9 @@
 
         <service id="AdminTest\Service\CustomProductPriceCalculator" decorates="Shopware\Core\Content\Product\SalesChannel\Price\ProductPriceCalculator">
             <argument type="service" id="AdminTest\Service\CustomProductPriceCalculator.inner" />
-            <argument type="service" id="producer_prices.repository"/>
-            <argument type="service" id="discount_products.repository"/>
-
+            <argument type="service" id="discount_manufacturer.repository"/>
+            <argument type="service" id="discount_product.repository"/>
+            <argument type="service" id="custom_field.repository"/>
         </service>
-
     </services>
 </container>

@@ -10,6 +10,16 @@
         <service id="JakobPlugin\ScheduledTask\ExampleTask">
             <tag name="shopware.scheduled.task"/>
         </service>
+        <service id="JakobPlugin\ScheduledTask\UpdateOrdersTask">
+            <tag name="shopware.scheduled.task"/>
+        </service>
+        <service id="JakobPlugin\ScheduledTask\UpdateOrdersTaskHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="JakobPlugin\Service\OrderHelper" />
+            <argument type="service" id="monolog.logger.update_orders_channel" />
+            <tag name="messenger.message_handler"/>
+        </service>
 
         <service id="JakobPlugin\Subscriber\MySubscriber">
             <tag name="kernel.event_subscriber"/>
@@ -80,13 +90,20 @@
             <argument type="service" id="product.repository"/>
             <argument type="service" id="order_delivery_position.repository"/>
             <argument type="service" id="Shopware\Core\Checkout\Cart\Tax\TaxCalculator" />
-
         </service>
-
+        <service id="JakobPlugin\Service\DiscountService">
+            <argument type="service" id="tag.repository"/>
+            <argument type="service" id="customer.repository"/>
+        </service>
+        <service id="JakobPlugin\Service\PriceImport">
+            <argument type="service" id="product.repository"/>
+        </service>
         <service id="JakobPlugin\Command\TestCommand">
             <tag name="console.command"/>
             <argument type="service" id="JakobPlugin\Service\MentionApi"/>
             <argument type="service" id="JakobPlugin\Service\OrderHelper"/>
+            <argument type="service" id="JakobPlugin\Service\DiscountService"/>
+            <argument type="service" id="JakobPlugin\Service\PriceImport"/>
 
         </service>
     </services>
